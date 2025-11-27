@@ -13,8 +13,8 @@ router = APIRouter(prefix="/api/users", tags=["Users"])
 @router.post("/register")
 async def register_user(data: UserRegister, db: AsyncSession = Depends(get_db)):
 
-    query = await db.execute(select(User).where(User.telegram_id == data.telegram_id))
-    user = query.scalar_one_or_none()
+    q = await db.execute(select(User).where(User.telegram_id == data.telegram_id))
+    user = q.scalar_one_or_none()
 
     if user:
         return {"status": "already_registered"}
@@ -32,4 +32,3 @@ async def register_user(data: UserRegister, db: AsyncSession = Depends(get_db)):
     await db.refresh(user)
 
     return {"status": "ok", "user_id": user.id}
-# placeholder users
