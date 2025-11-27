@@ -6,9 +6,5 @@ openai
 SQLAlchemy[asyncio]
 asyncpg
 alembic
-psycopg2-binary
 python-multipart
-git status      # убедись, что requirements.txt изменился
-git add requirements.txt
-git commit -m "Fix requirements for Render (add python-multipart)"
-git push
+psycopg2-binary
