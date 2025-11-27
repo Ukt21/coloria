@@ -1,10 +1,11 @@
 fastapi
 uvicorn[standard]
-aiogram
+aiogram==3.5.0
 python-dotenv
-openai
-SQLAlchemy[asyncio]
+sqlalchemy[asyncio]
 asyncpg
-alembic
+aiohttp
+openai
 python-multipart
-psycopg2-binary
+pillow
+jinja2
