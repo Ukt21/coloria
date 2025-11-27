@@ -1,4 +1,3 @@
-# placeholder schemas
 from pydantic import BaseModel
 
 
