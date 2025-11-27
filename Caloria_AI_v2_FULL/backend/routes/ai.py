@@ -1,4 +1,3 @@
-# placeholder ai
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -13,14 +12,13 @@ router = APIRouter(prefix="/api/ai", tags=["AI"])
 @router.get("/tip/{telegram_id}")
 async def ai_tip(telegram_id: str, db: AsyncSession = Depends(get_db)):
 
-    user_q = await db.execute(select(User).where(User.telegram_id == telegram_id))
-    user = user_q.scalar_one_or_none()
-
+    uq = await db.execute(select(User).where(User.telegram_id == telegram_id))
+    user = uq.scalar_one_or_none()
     if not user:
         return {"error": "user_not_found"}
 
-    entries_q = await db.execute(select(FoodEntry).where(FoodEntry.user_id == user.id))
-    entries = entries_q.scalars().all()
+    fq = await db.execute(select(FoodEntry).where(FoodEntry.user_id == user.id))
+    entries = fq.scalars().all()
 
     stats = {
         "total_calories": sum(e.calories for e in entries),
