@@ -1,4 +1,3 @@
-# placeholder handlers
 import os
 import uuid
 from aiogram import Router, types, F
@@ -177,3 +176,4 @@ async def webapp_handler(cb: types.CallbackQuery):
     )
 
     await cb.answer()
+
