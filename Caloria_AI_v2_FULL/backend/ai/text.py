@@ -1,4 +1,3 @@
-# placeholder ai text
 import os
 import json
 from openai import OpenAI
@@ -6,40 +5,36 @@ from openai import OpenAI
 client = OpenAI(api_key=os.getenv("OPENAI_KEY"))
 
 
-async def analyze_food_text(text: str):
-    """
-    GPT-4o анализирует описание еды.
-    Выдаёт калории, БЖУ, тип блюда.
-    """
-
+async def analyze_food_text(text: str) -> dict:
     prompt = f"""
-Ты — профессиональный нутриционист.
-Проанализируй блюдо по тексту:
+Ты — диетолог Caloria AI.
+Пользователь описал приём пищи:
 
-Описание: {text}
+\"\"\"{text}\"\"\"
 
 Определи:
-- калории
-- белки
-- жиры
-- углеводы
-- тип блюда: meal / snack / drink / sweet / fruit / fastfood
+- калории (целое число)
+- белки (граммы)
+- жиры (граммы)
+- углеводы (граммы)
+- тип приёма пищи: breakfast / lunch / dinner / snack
 
-Ответ строго в JSON:
+Ответ верни строго в JSON, без комментариев:
+
 {{
- "calories": число,
- "protein": число,
- "fat": число,
- "carbs": число,
- "food_type": "meal"
+  "calories": 450,
+  "protein": 25,
+  "fat": 15,
+  "carbs": 50,
+  "food_type": "lunch"
 }}
 """
 
-    response = client.chat.completions.create(
+    resp = client.chat.completions.create(
         model="gpt-4o",
         messages=[{"role": "user", "content": prompt}],
-        temperature=0.2
+        temperature=0.2,
     )
 
-    data = response.choices[0].message.content
-    return json.loads(data)
+    raw = resp.choices[0].message.content.strip()
+    return json.loads(raw)
