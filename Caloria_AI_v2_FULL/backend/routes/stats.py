@@ -1,4 +1,3 @@
-# placeholder stats
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -12,21 +11,21 @@ router = APIRouter(prefix="/api/stats", tags=["Stats"])
 
 @router.get("/today/{telegram_id}")
 async def today_stats(telegram_id: str, db: AsyncSession = Depends(get_db)):
-    
-    user_q = await db.execute(select(User).where(User.telegram_id == telegram_id))
-    user = user_q.scalar_one_or_none()
 
+    uq = await db.execute(select(User).where(User.telegram_id == telegram_id))
+    user = uq.scalar_one_or_none()
     if not user:
         return {"error": "user_not_found"}
 
     start = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
 
-    entries_q = await db.execute(
-        select(FoodEntry)
-        .where(FoodEntry.user_id == user.id, FoodEntry.created_at >= start)
+    fq = await db.execute(
+        select(FoodEntry).where(
+            FoodEntry.user_id == user.id,
+            FoodEntry.created_at >= start,
+        )
     )
-
-    entries = entries_q.scalars().all()
+    entries = fq.scalars().all()
 
     total = {
         "calories": sum(e.calories for e in entries),
@@ -44,7 +43,6 @@ async def today_stats(telegram_id: str, db: AsyncSession = Depends(get_db)):
                 "fat": e.fat,
                 "carbs": e.carbs,
                 "food_type": e.food_type,
-                "ai_source": e.ai_source,
             }
             for e in entries
         ],
@@ -54,3 +52,4 @@ async def today_stats(telegram_id: str, db: AsyncSession = Depends(get_db)):
         "daily_goal_fat": user.daily_fat,
         "daily_goal_carbs": user.daily_carbs,
     }
+
