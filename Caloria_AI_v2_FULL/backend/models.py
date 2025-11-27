@@ -1,4 +1,3 @@
-# placeholder models
 from sqlalchemy import Column, Integer, String, Float, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import datetime
@@ -9,16 +8,16 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True)
-    telegram_id = Column(String, unique=True)
+    telegram_id = Column(String, unique=True, index=True)
 
     gender = Column(String)
     age = Column(Integer)
     weight = Column(Float)
     height = Column(Float)
 
-    activity_level = Column(String)
-    goal = Column(String)
-    nutrition_type = Column(String)
+    activity_level = Column(String)  # low / medium / high
+    goal = Column(String)            # lose / maintain / gain
+    nutrition_type = Column(String)  # standard / sport / halal / vegan
     allergies = Column(Text)
 
     daily_calories = Column(Float)
@@ -42,8 +41,8 @@ class FoodEntry(Base):
     protein = Column(Float)
     fat = Column(Float)
     carbs = Column(Float)
-    food_type = Column(String)
-    ai_source = Column(String)
+    food_type = Column(String)   # breakfast / lunch / dinner / snack
+    ai_source = Column(String)   # text / photo / voice
 
     created_at = Column(DateTime, default=datetime.utcnow)
 
