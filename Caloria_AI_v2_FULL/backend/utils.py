@@ -1,9 +1,6 @@
 def calculate_daily_norms(user):
     """
-    Mifflin–St Jeor формула
-    + уровень активности
-    + цель (похудение/набор)
-    + разбивка БЖУ
+    Mifflin–St Jeor формула + активность + цель + разбивка БЖУ.
     """
 
     if user.gender.lower() == "male":
@@ -14,7 +11,7 @@ def calculate_daily_norms(user):
     activity = {
         "low": 1.2,
         "medium": 1.4,
-        "high": 1.6
+        "high": 1.6,
     }
 
     bmr *= activity.get(user.activity_level, 1.2)
