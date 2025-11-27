@@ -1,4 +1,3 @@
-# placeholder ai vision
 import os
 import json
 from openai import OpenAI
@@ -6,41 +5,38 @@ from openai import OpenAI
 client = OpenAI(api_key=os.getenv("OPENAI_KEY"))
 
 
-async def analyze_food_photo(path: str):
-    """
-    GPT-4o Vision определяет еду по фотографии.
-    """
-
-    with open(path, "rb") as img:
-        img_bytes = img.read()
-
+async def analyze_food_photo(path: str) -> dict:
     prompt = """
-Определи, что изображено на фото: блюдо, продукт или напиток.
-Оцени примерные нутриенты.
+Ты — диетолог Caloria AI.
+На фото — приём пищи. Определи примерные калории и БЖУ.
 
 Ответ строго в JSON:
+
 {
- "calories": число,
- "protein": число,
- "fat": число,
- "carbs": число,
- "food_type": "meal"
+  "calories": 500,
+  "protein": 20,
+  "fat": 18,
+  "carbs": 60,
+  "food_type": "lunch"
 }
 """
 
-    response = client.chat.completions.create(
+    with open(path, "rb") as f:
+        img_bytes = f.read()
+
+    resp = client.chat.completions.create(
         model="gpt-4o",
         messages=[
             {
                 "role": "user",
                 "content": [
                     {"type": "text", "text": prompt},
-                    {"type": "image", "image": img_bytes}
-                ]
+                    {"type": "image", "image": img_bytes},
+                ],
             }
         ],
-        max_tokens=300
     )
 
-    data = response.choices[0].message.content
-    return json.loads(data)
+    raw = resp.choices[0].message.content.strip()
+    return json.loads(raw)
+
