@@ -1,0 +1,3 @@
+services:
+  - name: caloria-ai-v2
+    type: web
