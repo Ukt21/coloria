@@ -1,1 +1,41 @@
 <html>placeholder</html>
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caloria AI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>CALORIA</h1>
+        <p>AI Fitness Nutrition Tracker</p>
+    </div>
+
+    <div class="rings-container">
+
+        <div class="ring-block">
+            <canvas id="calorieRing" width="200" height="200"></canvas>
+            <div class="ring-text" id="calorieText">0 / 0 ккал</div>
+        </div>
+
+        <div class="ring-block">
+            <canvas id="bjuRing" width="200" height="200"></canvas>
+            <div class="ring-text" id="bjuText">0 / 0 / 0 БЖУ</div>
+        </div>
+
+    </div>
+
+    <h2 class="section-title">Сегодня</h2>
+    <div id="foodList" class="food-list">Загрузка…</div>
+
+    <h2 class="section-title">Совет от ИИ</h2>
+    <div id="aiTip" class="ai-tip">Загрузка…</div>
+
+    <script src="app.js"></script>
+</body>
+</html>
