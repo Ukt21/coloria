@@ -5,7 +5,7 @@ python-dotenv
 sqlalchemy[asyncio]
 asyncpg
 aiohttp
-openai
+openai==0.28
 python-multipart
 pillow
 jinja2
