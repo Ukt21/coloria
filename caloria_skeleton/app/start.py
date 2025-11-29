@@ -1,4 +1,4 @@
-# app/handlers/start.py
+
 from aiogram import Router
 from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.filters import Command
