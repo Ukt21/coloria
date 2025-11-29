@@ -56,3 +56,35 @@ async def gender_chosen(callback: CallbackQuery, state: FSMContext):
     await callback.message.edit_text("Укажи свой возраст (число в годах):")
     await state.set_state(Registration.waiting_for_age)
 
+@start_router.message(Registration.waiting_for_age)
+async def age_entered(message: Message, state: FSMContext):
+    if not message.text.isdigit():
+        return await message.answer("Возраст должен быть числом. Попробуй снова.")
+    await state.update_data(age=int(message.text))
+
+    await message.answer("Укажи свой рост (в см):")
+    await state.set_state(Registration.waiting_for_height)
+
+
+@start_router.message(Registration.waiting_for_height)
+async def height_entered(message: Message, state: FSMContext):
+    if not message.text.isdigit():
+        return await message.answer("Рост должен быть числом. Попробуй снова.")
+    await state.update_data(height=int(message.text))
+
+    await message.answer("Теперь укажи свой вес (в кг):")
+    await state.set_state(Registration.waiting_for_weight)
+
+
+@start_router.message(Registration.waiting_for_weight)
+async def weight_entered(message: Message, state: FSMContext):
+    if not message.text.isdigit():
+        return await message.answer("Вес должен быть числом. Попробуй снова.")
+    await state.update_data(weight=int(message.text))
+
+    await message.answer(
+        "Последний шаг — выбери цель:",
+        reply_markup=main_menu_kb.goal_keyboard()
+    )
+    await state.set_state(Registration.waiting_for_goal)
+
