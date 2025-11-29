@@ -43,3 +43,16 @@ async def user_name_entered(message: Message, state: FSMContext):
         reply_markup=main_menu_kb.gender_keyboard()
     )
     await state.set_state(Registration.waiting_for_gender)
+
+
+from aiogram.types import CallbackQuery
+
+
+@start_router.callback_query(lambda c: c.data in ["gender_m", "gender_f"])
+async def gender_chosen(callback: CallbackQuery, state: FSMContext):
+    gender = "m" if callback.data == "gender_m" else "f"
+    await state.update_data(gender=gender)
+
+    await callback.message.edit_text("Укажи свой возраст (число в годах):")
+    await state.set_state(Registration.waiting_for_age)
+
