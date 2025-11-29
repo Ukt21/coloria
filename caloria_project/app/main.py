@@ -1,1 +1,0 @@
-print('Caloria bot placeholder')
